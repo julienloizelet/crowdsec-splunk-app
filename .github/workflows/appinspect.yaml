@@ -36,7 +36,7 @@ jobs:
           -F "app_package=@/tmp/crowdsec-splunk-app.tar.gz" \
           --url "https://appinspect.splunk.com/v1/app/validate"| jq -r .links[1].href)
           REPORT_URL="https://appinspect.splunk.com$REPORT_HREF"
-          sleep 10
+          sleep 60
           curl -X GET \
           -H "Authorization: bearer $TOKEN" \
           --url $REPORT_URL > /tmp/report
