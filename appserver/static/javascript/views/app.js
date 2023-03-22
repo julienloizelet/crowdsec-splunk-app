@@ -30,7 +30,7 @@ define(["react", "splunkjs/splunk"], function(react, splunk_js_sdk){
         e("div", null, [
           e("form", { onSubmit: this.handleSubmit }, [
             e("label", null, [
-              "Password ",
+              " ",
               e("input", { type: "text", name: "password", value: this.state.password, onChange: this.handleChange })
             ]),
             e("input", { type: "submit", value: "Submit" })
