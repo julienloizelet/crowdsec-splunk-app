@@ -14,35 +14,59 @@ if [[ -z "$USERNAME" || -z "$PASSWORD" ]]; then
   exit 1
 fi
 
-echo "Authenticating to Splunk AppInspect API..."
+echo "🔐 Authenticating to Splunk AppInspect API..."
 TOKEN=$(curl -s -u "$USERNAME:$PASSWORD" \
   --url 'https://api.splunk.com/2.0/rest/login/splunk' | jq -r .data.token)
 
 if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
-  echo "Error: Failed to retrieve token."
+  echo "❌ Error: Failed to retrieve token."
   exit 1
 fi
 
-echo "Token retrieved successfully. Submitting app for validation..."
-REPORT_HREF=$(curl -s -X POST \
+echo "✅ Token retrieved successfully. Submitting app for validation..."
+RESPONSE=$(curl -s -X POST \
   -H "Authorization: bearer $TOKEN" \
-  -H "Cache-Control: no-cache" \
   -F "app_package=@$APP_PACKAGE" \
-  --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links[1].href)
+  "https://appinspect.splunk.com/v1/app/validate")
 
-if [[ -z "$REPORT_HREF" || "$REPORT_HREF" == "null" ]]; then
-  echo "Error: Failed to submit the app or retrieve report href."
+REQUEST_ID=$(echo "$RESPONSE" | jq -r '.request_id')
+
+if [[ -z "$REQUEST_ID" || "$REQUEST_ID" == "null" ]]; then
+  echo "❌ Error: Failed to submit app or retrieve request ID."
+  echo "$RESPONSE"
   exit 1
 fi
 
-REPORT_URL="https://appinspect.splunk.com$REPORT_HREF"
-echo "App submitted. Report URL: $REPORT_URL"
-echo "Waiting 30 seconds for processing..."
-sleep 30
+STATUS_URL="https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID"
+REPORT_URL="https://appinspect.splunk.com/v1/app/report/$REQUEST_ID"
 
-echo "Fetching report..."
-curl -s -X GET \
-  -H "Authorization: bearer $TOKEN" \
-  --url "$REPORT_URL" > "$REPORT_PATH"
+echo "📤 App submitted. Request ID: $REQUEST_ID"
+echo "⏳ Polling validation status..."
 
-echo "Report saved to $REPORT_PATH"
+for i in {1..10}; do
+  STATUS_RESPONSE=$(curl -s -H "Authorization: bearer $TOKEN" "$STATUS_URL")
+  STATUS=$(echo "$STATUS_RESPONSE" | jq -r .status)
+
+  echo "🔄 Status check #$i: $STATUS"
+
+  if [[ "$STATUS" == "SUCCESS" ]]; then
+    echo "✅ Validation succeeded!"
+    break
+  elif [[ "$STATUS" == "FAILURE" ]]; then
+    echo "❌ Validation failed."
+    echo "$STATUS_RESPONSE"
+    exit 1
+  fi
+
+  sleep 5
+done
+
+if [[ "$STATUS" != "SUCCESS" ]]; then
+  echo "❌ Timeout: Validation did not complete within expected time."
+  exit 1
+fi
+
+echo "📥 Downloading validation report..."
+curl -s -H "Authorization: bearer $TOKEN" "$REPORT_URL" > "$REPORT_PATH"
+
+echo "📄 Report saved to $REPORT_PATH"
