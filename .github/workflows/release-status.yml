@@ -1,0 +1,23 @@
+name: Release validation status
+on:
+  workflow_dispatch:
+    inputs:
+      package_id:
+        type: string
+        required: true
+        description: Package ID of the release submission
+
+jobs:
+  release-validation-status:
+    name: Release validation status
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Call Splunkbase
+        run: |
+          curl -iL -u "${{ secrets.SPLUNKBASE_USERNAME }}:${{ secrets.SPLUNKBASE_PASSWORD }}" \
+               "https://splunkbase.splunk.com/api/v1/package/${{ github.event.inputs.package_id }}/"
+      
+
