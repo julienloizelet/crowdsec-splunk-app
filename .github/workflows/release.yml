@@ -142,5 +142,5 @@ jobs:
           -F "files[]=@${{ env.PACKAGE_NAME }}" \
           -F "filename=${{ env.PACKAGE_NAME }}" \
           -F "cim_versions=5.x" \
-          -F "splunk_versions=9.0" \
+          -F "splunk_versions=9.x" \
           -F "visibility=true"
