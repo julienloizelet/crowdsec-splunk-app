@@ -13,7 +13,7 @@ Splunk app: i.e. all files and folders except ones that are ignored by the `.sli
 
 ---
 
-## [1.1.0](https://github.com/crowdsecurity/nodejs-cs-bouncer/releases/tag/v0.1.0) - 2025-04-18
+## [1.1.0](https://github.com/crowdsecurity/crowdsec-splunk-app/releases/tag/v1.1.0) - 2025-04-18
 
 [_Compare with previous release_](https://github.com/crowdsecurity/crowdsec-splunk-app/compare/v1.0.6...v1.1.0)
 
