@@ -7,6 +7,11 @@ on:
         type: string
         required: true
         description: Tag name with v prefix
+      splunk_versions:
+        type: string
+        required: true
+        description: Splunk compatible versions
+        default: 9.4,9.3,9.2,9.1,9.0,8.2,8.1,8.0,7.3,7.2,7.1,7.0
       publish-to-splunkbase:
         type: boolean
         description: Publish to Splunkbase
@@ -142,5 +147,5 @@ jobs:
           -F "files[]=@${{ env.PACKAGE_NAME }}" \
           -F "filename=${{ env.PACKAGE_NAME }}" \
           -F "cim_versions=5.x" \
-          -F "splunk_versions=9.x" \
+          -F "splunk_versions=${{ github.event.inputs.splunk_versions }}" \
           -F "visibility=true"
