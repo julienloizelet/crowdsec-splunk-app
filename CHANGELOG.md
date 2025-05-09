@@ -13,6 +13,20 @@ Splunk app: i.e. all files and folders except ones that are ignored by the `.sli
 
 ---
 
+## [1.2.0](https://github.com/crowdsecurity/crowdsec-splunk-app/releases/tag/v1.2.0) - 2025-05-??
+
+[_Compare with previous release_](https://github.com/crowdsecurity/crowdsec-splunk-app/compare/v1.1.1...v1.2.0)
+
+### Added
+
+- Add missing CTI fields (`reputation`, `confidence`, `mitre_techniques`, `cves`, `background_noise`, `ip_range_24`, `ip_range_24_reputation`, `ip_range_24_score`)
+
+### Fixed
+
+- Fix typo for `aggressiveness` fields 
+
+---
+
 ## [1.1.1](https://github.com/crowdsecurity/crowdsec-splunk-app/releases/tag/v1.1.1) - 2025-04-21
 
 [_Compare with previous release_](https://github.com/crowdsecurity/crowdsec-splunk-app/compare/v1.1.0...v1.1.1)
