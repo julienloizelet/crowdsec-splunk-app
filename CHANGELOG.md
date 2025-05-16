@@ -8,8 +8,22 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## SemVer public API
 
 The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this library consists of all code related to the
-Splunk app: i.e. all files and folders except ones that are ignored by the `.slimignore` file.
+Splunk app: i.e., all files and folders except ones that are ignored by the `.slimignore` file.
 
+
+---
+
+## [1.2.0](https://github.com/crowdsecurity/crowdsec-splunk-app/releases/tag/v1.2.0) - 2025-05-16
+
+[_Compare with previous release_](https://github.com/crowdsecurity/crowdsec-splunk-app/compare/v1.1.1...v1.2.0)
+
+### Added
+
+- Add missing CTI fields (`reputation`, `confidence`, `mitre_techniques`, `cves`, `background_noise`, `ip_range_24`, `ip_range_24_reputation`, `ip_range_24_score`)
+
+### Fixed
+
+- Fix typo for `aggressiveness` fields 
 
 ---
 

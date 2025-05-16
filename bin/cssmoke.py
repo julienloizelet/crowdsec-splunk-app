@@ -21,9 +21,14 @@ from splunklib.searchcommands import (
 )
 
 def attach_resp_to_event(event, data):
+    event["crowdsec_reputation"] = data["reputation"]
+    event["crowdsec_confidence"] = data["confidence"]
     event["crowdsec_ip_range_score"] = data["ip_range_score"]
     event["crowdsec_ip"] = data["ip"]
     event["crowdsec_ip_range"] = data["ip_range"]
+    event["crowdsec_ip_range_24"] = data["ip_range_24"]
+    event["crowdsec_ip_range_24_reputation"] = data["ip_range_24_reputation"]
+    event["crowdsec_ip_range_24_score"] = data["ip_range_24_score"]
     event["crowdsec_as_name"] = data["as_name"]
     event["crowdsec_as_num"] = data["as_num"]
 
@@ -34,6 +39,9 @@ def attach_resp_to_event(event, data):
     event["crowdsec_reverse_dns"] = data["reverse_dns"]
 
     event["crowdsec_behaviors"] = data["behaviors"]
+
+    event["crowdsec_mitre_techniques"] = data["mitre_techniques"]
+    event["crowdsec_cves"] = data["cves"]
 
     event["crowdsec_first_seen"] = data["history"]["first_seen"]
     event["crowdsec_last_seen"] = data["history"]["last_seen"]
@@ -50,17 +58,18 @@ def attach_resp_to_event(event, data):
     event["crowdsec_target_countries"] = data["target_countries"]
 
     # background_noise_score
+    event["crowdsec_background_noise"] = data["background_noise"]
     event["crowdsec_background_noise_score"] = data["background_noise_score"]
 
     # overall
-    event["crowdsec_overall_aggresiveness"] = data["scores"]["overall"]["aggressiveness"]
+    event["crowdsec_overall_aggressiveness"] = data["scores"]["overall"]["aggressiveness"]
     event["crowdsec_overall_threat"] = data["scores"]["overall"]["threat"]
     event["crowdsec_overall_trust"] = data["scores"]["overall"]["trust"]
     event["crowdsec_overall_anomaly"] = data["scores"]["overall"]["anomaly"]
     event["crowdsec_overall_total"] = data["scores"]["overall"]["total"]
 
     # last_day
-    event["crowdsec_last_day_aggresiveness"] = data["scores"]["last_day"]["aggressiveness"]
+    event["crowdsec_last_day_aggressiveness"] = data["scores"]["last_day"]["aggressiveness"]
     event["crowdsec_last_day_threat"] = data["scores"]["last_day"]["threat"]
     event["crowdsec_last_day_trust"] = data["scores"]["last_day"]["trust"]
     event["crowdsec_last_day_anomaly"] = data["scores"]["last_day"]["anomaly"]
@@ -74,9 +83,7 @@ def attach_resp_to_event(event, data):
     event["crowdsec_last_week_total"] = data["scores"]["last_week"]["total"]
 
     # last_month
-    event["crowdsec_last_month_aggressiveness"] = data["scores"]["last_month"][
-        "aggressiveness"
-    ]
+    event["crowdsec_last_month_aggressiveness"] = data["scores"]["last_month"]["aggressiveness"]
     event["crowdsec_last_month_threat"] = data["scores"]["last_month"]["threat"]
     event["crowdsec_last_month_trust"] = data["scores"]["last_month"]["trust"]
     event["crowdsec_last_month_anomaly"] = data["scores"]["last_month"]["anomaly"]

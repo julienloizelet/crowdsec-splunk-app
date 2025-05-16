@@ -34,7 +34,7 @@ docker compose up -d
 ```
 
 When the container is created, [Splunk set all permissions](https://github.com/splunk/docker-splunk/blob/develop/docs/SECURITY.md#splunk-home-ownership) to `splunk` user and group.
-so you need to change the ownership of the folder to your user:
+That's why you need to change the ownership of the folder to your user:
 
 ```bash
 sudo chown -R $USER:$USER ../../ 
@@ -49,7 +49,7 @@ docker compose down
 
 ### Test the app
 
-Once container is up, you can browse to Splunk UI: http://localhost:8000
+Once the container is up, you can browse to Splunk UI: http://localhost:8000
 
 Username is `admin` and password is the one you set in `.env` file.
 
